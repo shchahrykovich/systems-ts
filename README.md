@@ -1,7 +1,7 @@
 # Systems (TypeScript)
 
 [![npm version](https://img.shields.io/npm/v/systems-ts.svg)](https://www.npmjs.com/package/systems-ts)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 `systems-ts` is a TypeScript port of the [systems](https://github.com/lethain/systems) library for describing, running, and visualizing [systems diagrams](https://lethain.com/systems-thinking/).
 
