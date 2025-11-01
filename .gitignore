@@ -1,0 +1,5 @@
+.autoenv*.zsh
+.idea/
+.claude/
+node_modules/
+dist/

@@ -1,0 +1,58 @@
+{
+  "name": "systems-ts",
+  "version": "1.0.0",
+  "description": "A TypeScript library for describing, running, and visualizing systems diagrams with stock and flow models",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "prepublishOnly": "npm run build && npm test",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shchahrykovich/systems-ts.git"
+  },
+  "keywords": [
+    "systems-thinking",
+    "stock-and-flow",
+    "simulation",
+    "modeling",
+    "systems-dynamics",
+    "typescript",
+    "systems-diagram",
+    "capacity-planning",
+    "resource-modeling"
+  ],
+  "author": "Sergey Shchegrikovich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shchahrykovich/systems-ts/issues"
+  },
+  "homepage": "https://github.com/shchahrykovich/systems-ts#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.6"
+  }
+}

@@ -1,0 +1,27 @@
+# Source files
+src/
+tests/
+examples/
+docs/
+
+# Config files
+tsconfig.json
+vitest.config.ts
+.gitignore
+.git/
+.claude/
+
+# Development files
+node_modules/
+*.log
+*.tgz
+.DS_Store
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# Build artifacts (will be rebuilt during prepare)
+*.map
+CLAUDE.md
