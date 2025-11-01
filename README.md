@@ -164,7 +164,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-ISC License - see the [LICENSE](LICENSE) file for details.
+MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Credits
 
