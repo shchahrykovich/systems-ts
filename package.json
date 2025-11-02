@@ -1,6 +1,6 @@
 {
   "name": "systems-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A TypeScript library for describing, running, and visualizing systems diagrams with stock and flow models",
   "type": "module",
   "main": "dist/index.js",

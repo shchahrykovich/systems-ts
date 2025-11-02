@@ -187,12 +187,19 @@ export abstract class RateBase {
 export class Rate extends RateBase {
   calculate(state: StateMap, src: number, dest: number, capacity: number): [number, number] {
     const evaluated = this.formula.compute(state);
-    if (src > 0) {
-      let change = src - evaluated >= 0 ? evaluated : src;
-      change = Math.min(capacity, Math.max(0, change));
-      return [change, change];
+    let change = evaluated;
+
+    if (change > 0) {
+      // Forward flow: limit by source availability and destination capacity
+      if (src <= 0) {
+        return [0, 0];
+      }
+      change = Math.min(change, src);
+      change = Math.min(change, capacity);
     }
-    return [0, 0];
+    // For negative changes (reverse flow), no constraints apply
+
+    return [change, change];
   }
 }
 
