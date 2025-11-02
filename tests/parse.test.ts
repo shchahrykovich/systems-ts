@@ -135,6 +135,144 @@ a > b @ 5
       expect(model.stocks.length).toBe(2);
       expect(model.flows.length).toBe(1);
     });
+
+    it('should handle multiple consecutive comments', () => {
+      const spec = `
+# First comment
+# Second comment
+# Third comment
+a > b @ 5
+# Fourth comment
+# Fifth comment
+`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      expect(model.flows.length).toBe(1);
+    });
+
+    it('should handle comments at the beginning of file', () => {
+      const spec = `# This is a comment at the start
+a > b @ 5`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      expect(model.flows.length).toBe(1);
+    });
+
+    it('should handle comments at the end of file', () => {
+      const spec = `a > b @ 5
+# This is a comment at the end`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      expect(model.flows.length).toBe(1);
+    });
+
+    it('should handle comments with special characters', () => {
+      const spec = `
+# Comment with special chars: @><()[]!@#$%^&*
+a > b @ 5
+# Another comment with symbols: +-*/=
+`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      expect(model.flows.length).toBe(1);
+    });
+
+    it('should handle empty comments', () => {
+      const spec = `
+#
+a > b @ 5
+#
+`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      expect(model.flows.length).toBe(1);
+    });
+
+    it('should handle comments mixed with empty lines', () => {
+      const spec = `
+# First comment
+
+a > b @ 5
+
+# Middle comment
+
+b > c @ 3
+
+# Last comment
+`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(3);
+      expect(model.flows.length).toBe(2);
+    });
+
+    it('should handle comment-only file', () => {
+      const spec = `
+# Comment 1
+# Comment 2
+# Comment 3
+`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(0);
+      expect(model.flows.length).toBe(0);
+    });
+
+    it('should support inline comments after code', () => {
+      const spec = `a > b @ 5  # This is an inline comment`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      expect(model.flows.length).toBe(1);
+      expect(model.flows[0].rate.formula.compute()).toBe(5);
+    });
+
+    it('should support inline comments in complex specs', () => {
+      const spec = `
+LowPriority > FixedLow @ Leak(0.02)        # Only 2% fixed per round
+MediumPriority > FixedMedium @ Leak(0.15)  # 15% fixed per round
+HighPriority > FixedHigh @ Leak(0.5)       # 50% fixed per round
+`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(6);
+      expect(model.flows.length).toBe(3);
+    });
+
+    it('should support inline comments after stock declarations', () => {
+      const spec = `
+Managers(2)  # Initial managers
+Engineers(Managers * 4)  # 4 engineers per manager
+`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      const results = model.run(0);
+      expect(results[0]['Managers']).toBe(2);
+      expect(results[0]['Engineers']).toBe(8);
+    });
+
+    it('should handle inline comments with special characters', () => {
+      const spec = `a > b @ 5  # Comment with @><()[]!@#$%^&*`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      expect(model.flows.length).toBe(1);
+    });
+
+    it('should handle inline comments immediately after code', () => {
+      const spec = `a > b @ 5# No space before comment`;
+
+      const model = parse(spec);
+      expect(model.stocks.length).toBe(2);
+      expect(model.flows.length).toBe(1);
+      expect(model.flows[0].rate.formula.compute()).toBe(5);
+    });
   });
 
   describe('Formula references', () => {

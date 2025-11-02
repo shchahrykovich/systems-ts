@@ -203,7 +203,7 @@ export function lex(txt: string): LinesToken {
     const c = txt[i];
     const prev = charBuff[charBuff.length - 1];
 
-    if (c === COMMENT && line.length === 0) {
+    if (c === COMMENT && line.length === 0 && charBuff === WHITESPACE) {
       parsing = TOKEN_COMMENT;
     } else if (parsing === TOKEN_COMMENT) {
       if (c === NEWLINE) {
@@ -211,6 +211,15 @@ export function lex(txt: string): LinesToken {
         charBuff = WHITESPACE;
       }
     } else if (parsing === TOKEN_STOCK) {
+      if (c === COMMENT) {
+        // Inline comment detected - process accumulated buffer and switch to comment mode
+        if (charBuff !== WHITESPACE) {
+          line.push(lexStock(charBuff));
+        }
+        charBuff = WHITESPACE;
+        parsing = TOKEN_COMMENT;
+        continue;
+      }
       if (c === FLOW_DIRECTION) {
         line.push(lexStock(charBuff));
         line.push([TOKEN_FLOW_DIRECTION, c]);
@@ -231,6 +240,15 @@ export function lex(txt: string): LinesToken {
         charBuff = WHITESPACE;
       }
     } else if (parsing === TOKEN_FLOW) {
+      if (c === COMMENT) {
+        // Inline comment detected - process accumulated buffer and switch to comment mode
+        if (charBuff !== WHITESPACE) {
+          line.push(lexFlow(charBuff));
+        }
+        charBuff = WHITESPACE;
+        parsing = TOKEN_COMMENT;
+        continue;
+      }
       if (c === NEWLINE) {
         if (charBuff !== WHITESPACE) {
           line.push(lexFlow(charBuff));
